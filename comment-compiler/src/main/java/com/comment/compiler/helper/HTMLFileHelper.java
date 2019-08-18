@@ -183,7 +183,7 @@ public final class HTMLFileHelper implements FileHelper {
         cssElement.setAttribute("type", "text/css");
         StringBuilder sb = new StringBuilder();
         sb.append("div{max-width:100%;width:50%;margin:0 auto}").append("\n")
-                .append("table{color:#333333;border-width:1px;border-color:#666666;border-collapse:collapse;}").append("\n")
+                .append("table{width:100%;color:#333333;border-width:1px;border-color:#666666;border-collapse:collapse;}").append("\n")
                 .append("table th{border-width:1px;padding:10px;border-style:solid;border-color:#666666;background-color:#dedede;}").append("\n")
                 .append("table td{border-width:1px;padding:10px;border-style:solid;border-color:#666666;background-color:#ffffff;}").append("\n")
         ;
