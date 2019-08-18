@@ -25,6 +25,11 @@ import javax.lang.model.element.ElementKind;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 
+/**
+ * 生成HTML文档
+ *
+ * @author wangjiang
+ */
 public final class HTMLFileHelper implements FileHelper {
 
 

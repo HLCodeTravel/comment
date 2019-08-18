@@ -11,6 +11,11 @@ import javax.annotation.processing.Filer;
 import javax.lang.model.element.ElementKind;
 import javax.tools.JavaFileObject;
 
+/**
+ * 生成Java类文档
+ *
+ * @author wangjiang
+ */
 public final class JavaFileHelper implements FileHelper {
 
 

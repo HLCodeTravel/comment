@@ -20,12 +20,41 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
 
+/**
+ * 注解解析类
+ *
+ * @author wangjiang
+ * @version 0.0.1
+ */
 public final class CommentProcessor extends AbstractProcessor {
+
+
+    /**
+     * 生成的文件名字
+     */
+    private static final String FILE_NAME = "JavaCommentDoc";
+    /**
+     * 编译参数，是否是debug环境
+     */
+    private static final String OPTION_DEBUGGABLE = "debuggable";
+    /**
+     * 编译参数，是否要检查注释
+     */
+    private static final String OPTION_CHECK_COMMENT = "check_comment";
+    /**
+     * 是否是debug环境
+     */
+    private boolean mDebuggable = false;
+    /**
+     * 是否要检查注释
+     */
+    private boolean mCheckComment = false;
 
     /**
      * 操作元素的工具方法
@@ -42,6 +71,7 @@ public final class CommentProcessor extends AbstractProcessor {
 
     private List<FileHelper> mFileHelpers;
 
+
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
         super.init(processingEnvironment);
@@ -49,6 +79,18 @@ public final class CommentProcessor extends AbstractProcessor {
         mFiler = processingEnvironment.getFiler();
         mMessager = processingEnvironment.getMessager();
         mFileHelpers = Arrays.asList(JavaFileHelper.create(), HTMLFileHelper.create());
+
+        Map<String, String> options = processingEnvironment.getOptions();
+        if (options != null) {
+            String debuggable = options.get(OPTION_DEBUGGABLE);
+            if (debuggable != null) {
+                mDebuggable = Boolean.valueOf(debuggable);
+            }
+            String checkoutComment = options.get(OPTION_CHECK_COMMENT);
+            if (checkoutComment != null) {
+                mCheckComment = Boolean.valueOf(checkoutComment);
+            }
+        }
     }
 
     @Override
@@ -92,7 +134,7 @@ public final class CommentProcessor extends AbstractProcessor {
                 }
                 for (FileHelper fileHelper : mFileHelpers) {
                     try {
-                        fileHelper.writeToFile(mFiler, data, "JavaCommentDoc");
+                        fileHelper.writeToFile(mFiler, data, FILE_NAME);
                     } catch (Exception e) {
                         e.printStackTrace();
                         mMessager.printMessage(Diagnostic.Kind.ERROR, e.toString());
@@ -114,12 +156,17 @@ public final class CommentProcessor extends AbstractProcessor {
      * @return 封装成的数据类
      */
     private CommentModel getCommentModel(Element element, String canonicalName) {
-        mMessager.printMessage(Diagnostic.Kind.NOTE, "element=" + element.toString());
-        CommentModel commentModel = null;
-        if (element.getKind() == ElementKind.CLASS || element.getKind() == ElementKind.METHOD) {
-            commentModel = new CommentModel();
+        if (mDebuggable)
+            mMessager.printMessage(Diagnostic.Kind.NOTE, "element=" + element.toString());
 
+        CommentModel commentModel = null;
+        Set<Modifier> modifiers = element.getModifiers();
+        if (modifiers.contains(Modifier.PUBLIC) || modifiers.contains(Modifier.DEFAULT)) {
+            commentModel = new CommentModel();
             String docComment = mElementUtil.getDocComment(element);
+
+            checkDocComment(element, canonicalName, docComment);
+
             if (docComment != null && docComment.length() > 0) {
                 StringBuilder sb = new StringBuilder(docComment);//得到类或方法的注释
                 if (sb.length() > 0) {
@@ -141,5 +188,23 @@ public final class CommentProcessor extends AbstractProcessor {
             commentModel.setName(element.toString());
         }
         return commentModel;
+    }
+
+    /**
+     * 检查方法是否有注释
+     *
+     * @param element       当前元素
+     * @param canonicalName 类全名
+     * @param docComment    当前类或者构造器或方法注释
+     */
+    private void checkDocComment(Element element, String canonicalName, String docComment) {
+        if (mCheckComment && (docComment == null || "".equals(docComment.trim())) || docComment.equals("null")) {
+            StringBuilder message = new StringBuilder("You should add comment to " + element.getKind().toString().toLowerCase() + " : ");
+            if (element.getKind() != ElementKind.CLASS) {
+                message.append(canonicalName).append('#');
+            }
+            message.append(element.toString());
+            mMessager.printMessage(Diagnostic.Kind.ERROR, message.toString());
+        }
     }
 }
