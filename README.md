@@ -36,7 +36,7 @@ public final class DisplayUtil {
 
 ```
 
-2. 构建项目，运行`./gradlew build` 、 `./gradlew assembleDebug` 或 `./gradlew assembleRelease`命令。
+2. 构建项目，运行`./gradlew build` 或 `./gradlew assembleDebug` 或 `./gradlew assembleRelease`命令。
 
 3. 构建完成后，查看主 Module 下的目录`/build/generated/source/apt/debug/`，再找到你添加注解`@Comment`的类的包下，如上面类包名为`com.example.comment.util`，则你会在该包下看到文件：JavaCommentDoc.java 和 JavaCommentDoc.html。
 
@@ -61,9 +61,9 @@ class JavaCommentDoc{
 ```
 JavaCommentDoc.java 文件会把一个包下的每个类具有的方法汇聚到一起，可以通过AndroidStudio 的快捷键也可直接进入到原类。如果有多个包，则有多个JavaCommentDoc.java 文件。
 
-查看生成的文件 JavaCommentDoc.html，文件 JavaCommentDoc.html 需要在浏览器中打开：
+查看生成的文件 JavaCommentDoc.html，需要在浏览器中打开：
 
 ![image](https://github.com/WJRye/comment/blob/master/JavaCommentDoc-html.png)
 
 
-JavaCommentDoc.html 和 JavaCommentDoc.java 一样。
+JavaCommentDoc.html 和 JavaCommentDoc.java 表达的意思一样。
