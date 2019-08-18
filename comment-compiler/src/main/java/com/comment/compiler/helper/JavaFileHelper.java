@@ -22,8 +22,7 @@ public final class JavaFileHelper implements FileHelper {
     }
 
     @Override
-    public void writeToFile(Filer filer, Map<String, List<List<CommentModel>>> data, String className) {
-
+    public void writeToFile(Filer filer, Map<String, List<List<CommentModel>>> data, String className) throws IOException {
 
         for (Map.Entry<String, List<List<CommentModel>>> entry :
                 data.entrySet()) {
@@ -41,11 +40,11 @@ public final class JavaFileHelper implements FileHelper {
                     builder.append("\t");
                     int insertIndex = builder.length() - 1;
                     builder.append("{@link").append(" ");
-                    if (commentModel.getElementKind() == ElementKind.CLASS) {
-                        builder.append(commentModel.getName());
-                    } else if (commentModel.getElementKind() == ElementKind.METHOD) {
+                    if (commentModel.getElementKind() == ElementKind.METHOD) {
                         builder.insert(insertIndex, "\t");
                         builder.append(commentModel.getCanonicalName()).append("#").append(commentModel.getName());
+                    } else if (commentModel.getElementKind() == ElementKind.CLASS) {
+                        builder.append(commentModel.getName());
                     }
                     builder.append(',').append(" ").append(commentModel.getComment());
                     builder.append("}");
@@ -60,15 +59,13 @@ public final class JavaFileHelper implements FileHelper {
             builder.append("\t").append("*/").append("\n")
                     .append("}");
 
-            try {
-                JavaFileObject fileObject = filer.createSourceFile(pkgName + "." + className);//生成 Java 文件
-                Writer writer = fileObject.openWriter();
-                writer.append(builder.toString());
-                writer.flush();
-                writer.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+
+            JavaFileObject fileObject = filer.createSourceFile(pkgName + "." + className);//生成 Java 文件
+            Writer writer = fileObject.openWriter();
+            writer.append(builder.toString());
+            writer.flush();
+            writer.close();
+
         }
 
 

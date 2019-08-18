@@ -201,9 +201,9 @@ public final class HTMLFileHelper implements FileHelper {
      * @param textContent   子元素文本值
      */
     private void appendChild(Document htmlDoc, Element parentElement, String name, String textContent) {
-        Element tdElement = htmlDoc.createElement(name);
+        Element element = htmlDoc.createElement(name);
         if (textContent != null)
-            tdElement.setTextContent(textContent);
-        parentElement.appendChild(tdElement);
+            element.setTextContent(textContent);
+        parentElement.appendChild(element);
     }
 }
