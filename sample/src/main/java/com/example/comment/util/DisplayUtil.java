@@ -11,7 +11,7 @@ import com.comment.annotation.Comment;
 /**
  * 页面相关
  *
- * @author wangjiang wangjiang7747@gmail.com
+ * @author wangjiang
  * @version V1.0
  */
 @Comment

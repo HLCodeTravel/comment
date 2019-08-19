@@ -23,6 +23,11 @@ public final class CommentModel {
      */
     private ElementKind elementKind;
 
+    /**
+     * 作者名字
+     */
+    private String author;
+
     public String getName() {
         return name;
     }
@@ -55,4 +60,12 @@ public final class CommentModel {
         this.elementKind = elementKind;
     }
 
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
 }

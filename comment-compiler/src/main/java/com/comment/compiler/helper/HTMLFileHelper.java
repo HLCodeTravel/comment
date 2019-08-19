@@ -92,8 +92,12 @@ public final class HTMLFileHelper implements FileHelper {
                         String fileObjectName = fileObject.getName();
                         path = fileObjectName.substring(0, fileObjectName.lastIndexOf(File.separator));
 
-                        appendChild(htmlDoc, divElement, "h2", className + " : " + commentModel.getComment());
-
+                        StringBuilder h2sb = new StringBuilder(className);
+                        if (commentModel.getAuthor() != null) {
+                            h2sb.append('(').append(commentModel.getAuthor()).append(')');
+                        }
+                        h2sb.append(" : ").append(commentModel.getComment());
+                        appendChild(htmlDoc, divElement, "h2", h2sb.toString());
                     }
 
                 }
@@ -204,11 +208,13 @@ public final class HTMLFileHelper implements FileHelper {
      * @param parentElement 父元素
      * @param name          子元素名字
      * @param textContent   子元素文本值
+     * @return 子元素
      */
-    private void appendChild(Document htmlDoc, Element parentElement, String name, String textContent) {
+    private Element appendChild(Document htmlDoc, Element parentElement, String name, String textContent) {
         Element element = htmlDoc.createElement(name);
         if (textContent != null)
             element.setTextContent(textContent);
         parentElement.appendChild(element);
+        return element;
     }
 }

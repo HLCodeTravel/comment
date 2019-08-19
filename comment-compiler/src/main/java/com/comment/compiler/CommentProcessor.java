@@ -167,6 +167,7 @@ public final class CommentProcessor extends AbstractProcessor {
 
             checkDocComment(element, canonicalName, docComment);
 
+            StringBuilder author = null;
             if (docComment != null && docComment.length() > 0) {
                 StringBuilder sb = new StringBuilder(docComment);//得到类或方法的注释
                 if (sb.length() > 0) {
@@ -175,10 +176,20 @@ public final class CommentProcessor extends AbstractProcessor {
                     if (startHtmlTagIndex != -1 && endHtmlTagIndex != -1) {
                         sb.delete(startHtmlTagIndex, endHtmlTagIndex + 1);
                     }
+                    int authorTagIndex = sb.indexOf("@author");
+                    if (authorTagIndex != -1) {
+                        author = new StringBuilder();
+                        int startAuthorTagIndex = authorTagIndex;
+                        while (sb.charAt(startAuthorTagIndex) != '\n') {
+                            author.append(sb.charAt(startAuthorTagIndex));
+                            startAuthorTagIndex++;
+                        }
+                    }
                     int docTagIndex = sb.indexOf("@");
                     if (docTagIndex != -1) {
                         sb.delete(docTagIndex, sb.length());
                     }
+
                     docComment = sb.toString().trim();
                 }
             }
@@ -186,6 +197,7 @@ public final class CommentProcessor extends AbstractProcessor {
             commentModel.setComment(docComment);
             commentModel.setCanonicalName(canonicalName);
             commentModel.setName(element.toString());
+            commentModel.setAuthor(author != null ? author.toString() : null);
         }
         return commentModel;
     }
