@@ -176,10 +176,13 @@ public final class CommentProcessor extends AbstractProcessor {
                     if (startHtmlTagIndex != -1 && endHtmlTagIndex != -1) {
                         sb.delete(startHtmlTagIndex, endHtmlTagIndex + 1);
                     }
-                    int authorTagIndex = sb.indexOf("@author");
+                    String authorStr = "@author";
+                    int authorTagIndex = sb.indexOf(authorStr);
                     if (authorTagIndex != -1) {
                         author = new StringBuilder();
                         int startAuthorTagIndex = authorTagIndex;
+                        author.append(sb.charAt(startAuthorTagIndex));
+                        startAuthorTagIndex += authorStr.length() + 1;
                         while (sb.charAt(startAuthorTagIndex) != '\n') {
                             author.append(sb.charAt(startAuthorTagIndex));
                             startAuthorTagIndex++;
@@ -197,7 +200,7 @@ public final class CommentProcessor extends AbstractProcessor {
             commentModel.setComment(docComment);
             commentModel.setCanonicalName(canonicalName);
             commentModel.setName(element.toString());
-            commentModel.setAuthor(author != null ? author.toString() : null);
+            commentModel.setAuthor(author != null ? author.toString().trim() : null);
         }
         return commentModel;
     }
