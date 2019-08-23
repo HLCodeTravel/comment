@@ -3,7 +3,19 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     compileOnly files(org.gradle.internal.jvm.Jvm.current().getToolsJar())
+    testImplementation files(getRuntimeJar())
 }
 
-sourceCompatibility = "7"
-targetCompatibility = "7"
+def getRuntimeJar() {
+    try {
+        final File javaBase = new File(System.getProperty("java.home")).getCanonicalFile();
+        File runtimeJar = new File(javaBase, "lib/rt.jar");
+        if (runtimeJar.exists()) {
+            return runtimeJar;
+        }
+        runtimeJar = new File(javaBase, "jre/lib/rt.jar");
+        return runtimeJar.exists() ? runtimeJar : null;
+    } catch (IOException e) {
+        throw new RuntimeException(e);
+    }
+}
