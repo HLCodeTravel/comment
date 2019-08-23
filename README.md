@@ -75,7 +75,6 @@ JavaCommentDoc.java 文件会把一个包下的每个类具有的方法汇聚到
 
 查看生成的文件 JavaCommentDoc.html，需要在浏览器中打开：
 
-[html(img-n5tDHsss-1566568231964)(https://github.com/WJRye/comment/blob/master/JavaCommentDoc-html.png)]
-
+<img src="https://github.com/WJRye/comment/blob/master/JavaCommentDoc-html.png" />
 
 JavaCommentDoc.html 和 JavaCommentDoc.java 表达的意思一样。
