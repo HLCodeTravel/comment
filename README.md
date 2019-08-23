@@ -1,7 +1,18 @@
+
 # comment
 **comment** 的主要作用是将类注释扫描到文档中。通过在类中添加类注解`@Comment`，在项目编译的时候，生成`.java` 和`.html` 文档。`.java` 和`.html` 文档会把一个包下的每个类具有的方法汇聚到一起，帮助开发人员一览项目 API。
 
-## 如何使用？
+## 导入工具
+在你要使用该工具的 Module 的 build.gradle 文件中添加依赖：
+
+```
+dependencies {
+    annotationProcessor 'com.wangjiang:comment-doc:0.0.1'
+    implementation 'com.wangjiang:comment-doc:0.0.1'
+}
+```
+
+## 使用简单介绍
 1.在你需要生成注释文档的类中添加注解`@Comment`，如在工具类`DisplayUtil`中添加：
 
 ```
@@ -32,6 +43,7 @@ public final class DisplayUtil {
         int statusBarHeight = resources.getDimensionPixelSize(resourceId);
         return statusBarHeight;
     }
+    //省略部分代码
 }
 
 ```
@@ -63,7 +75,7 @@ JavaCommentDoc.java 文件会把一个包下的每个类具有的方法汇聚到
 
 查看生成的文件 JavaCommentDoc.html，需要在浏览器中打开：
 
-![image](https://github.com/WJRye/comment/blob/master/JavaCommentDoc-html.png)
+[html(img-n5tDHsss-1566568231964)(https://github.com/WJRye/comment/blob/master/JavaCommentDoc-html.png)]
 
 
 JavaCommentDoc.html 和 JavaCommentDoc.java 表达的意思一样。
