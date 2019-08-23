@@ -12,6 +12,24 @@ dependencies {
 }
 ```
 
+还可以在 build.gradle 文件中添加编译配置信息：
+
+```
+android {
+    defaultConfig {
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ debuggable : 'true',check_comment : 'true']
+            }
+        }
+    }
+}
+```
+arguments 参数表示意思：
+
+ - debuggable：值为true表示会在控制台打印出相关日志信息，值为false则不会打印。
+ - check_comment：值为true表示会检查你添加注解`@Comment`的类中的类、方法是否有注释，如果没有注释则会编译失败，值为false则不会检查。
+
 ## 使用简单介绍
 1.在你需要生成注释文档的类中添加注解`@Comment`，如在工具类`DisplayUtil`中添加：
 
@@ -75,6 +93,7 @@ JavaCommentDoc.java 文件会把一个包下的每个类具有的方法汇聚到
 
 查看生成的文件 JavaCommentDoc.html，需要在浏览器中打开：
 
-<img src="https://github.com/WJRye/comment/blob/master/JavaCommentDoc-html.png" />
+![HTML 图片](JavaCommentDoc-html.png)
+
 
 JavaCommentDoc.html 和 JavaCommentDoc.java 表达的意思一样。
