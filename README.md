@@ -2,6 +2,9 @@
 **comment** 的主要作用是将类注释扫描到文档中。通过在类中添加类注解`@Comment`，在项目编译的时候，生成`.java` 和`.html` 文档。`.java` 和`.html` 文档会把一个包下的每个类具有的方法汇聚到一起，帮助开发人员一览项目 API。
 
 ## 导入工具
+
+### Java Module
+
 在你要使用该工具的 Module 的 build.gradle 文件中添加依赖：
 
 ```
@@ -10,6 +13,19 @@ dependencies {
     implementation 'com.wangjiang:comment-doc:0.0.3'
 }
 ```
+### Kotlin Module
+在你要使用该工具的 Module 的 build.gradle 文件中添加依赖：
+
+```
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    kapt 'com.wangjiang:comment-doc:0.0.3'
+    implementation 'com.wangjiang:comment-doc:0.0.3'
+}
+```
+
+### 配置可选参数
 
 还可以在 build.gradle 文件中添加编译配置信息：
 
@@ -18,6 +34,7 @@ android {
     defaultConfig {
         javaCompileOptions {
             annotationProcessorOptions {
+                includeCompileClasspath true
                 arguments = [ debuggable : 'true',check_comment : 'true']
             }
         }
