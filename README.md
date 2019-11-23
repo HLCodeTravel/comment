@@ -6,8 +6,8 @@
 
 ```
 dependencies {
-    annotationProcessor 'com.wangjiang:comment-doc:0.0.2'
-    implementation 'com.wangjiang:comment-doc:0.0.2'
+    annotationProcessor 'com.wangjiang:comment-doc:0.0.3'
+    implementation 'com.wangjiang:comment-doc:0.0.3'
 }
 ```
 
