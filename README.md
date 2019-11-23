@@ -1,4 +1,3 @@
-
 # comment
 **comment** 的主要作用是将类注释扫描到文档中。通过在类中添加类注解`@Comment`，在项目编译的时候，生成`.java` 和`.html` 文档。`.java` 和`.html` 文档会把一个包下的每个类具有的方法汇聚到一起，帮助开发人员一览项目 API。
 
@@ -7,8 +6,8 @@
 
 ```
 dependencies {
-    annotationProcessor 'com.wangjiang:comment-doc:0.0.1'
-    implementation 'com.wangjiang:comment-doc:0.0.1'
+    annotationProcessor 'com.wangjiang:comment-doc:0.0.2'
+    implementation 'com.wangjiang:comment-doc:0.0.2'
 }
 ```
 
@@ -27,8 +26,10 @@ android {
 ```
 arguments 参数表示意思：
 
- - debuggable：值为true表示会在控制台打印出相关日志信息，值为false则不会打印。
- - check_comment：值为true表示会检查你添加注解`@Comment`的类中的类、方法是否有注释，如果没有注释则会编译失败，值为false则不会检查。
+ - debuggable：表示是否在控制台打印出相关日志信息，值为"true"打印，"false"不打印。
+ - check_comment：表示是否会检查添加了注解`@Comment`的类有类或方法注释，值为"true"检查，在检查中发现类或方法没有注释就会编译失败，"false"不检查。
+
+如果没有添加编译配置信息`debuggable` 或 `check_comment`，`debuggable`的默认值是"false"，`check_comment`的默认值是"true"。
 
 ## 使用简单介绍
 1.在你需要生成注释文档的类中添加注解`@Comment`，如在工具类`DisplayUtil`中添加：
