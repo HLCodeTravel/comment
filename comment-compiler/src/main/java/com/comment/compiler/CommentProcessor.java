@@ -31,7 +31,7 @@ import javax.tools.Diagnostic;
  * 注解解析类
  *
  * @author wangjiang
- * @version 0.0.1
+ * @version 0.0.3
  */
 public final class CommentProcessor extends AbstractProcessor {
 
