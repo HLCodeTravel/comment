@@ -18,6 +18,7 @@ import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.Modifier;
@@ -54,7 +55,7 @@ public final class CommentProcessor extends AbstractProcessor {
     /**
      * 是否要检查注释
      */
-    private boolean mCheckComment = false;
+    private boolean mCheckComment = true;
 
     /**
      * 操作元素的工具方法
@@ -91,6 +92,11 @@ public final class CommentProcessor extends AbstractProcessor {
                 mCheckComment = Boolean.valueOf(checkoutComment);
             }
         }
+    }
+
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+        return SourceVersion.latestSupported();
     }
 
     @Override
@@ -213,7 +219,7 @@ public final class CommentProcessor extends AbstractProcessor {
      * @param docComment    当前类或者构造器或方法注释
      */
     private void checkDocComment(Element element, String canonicalName, String docComment) {
-        if (mCheckComment && (docComment == null || "".equals(docComment.trim())) || docComment.equals("null")) {
+        if (mCheckComment && (docComment == null || "".equals(docComment.trim()) || "null".equals(docComment))) {
             StringBuilder message = new StringBuilder("You should add comment to " + element.getKind().toString().toLowerCase() + " : ");
             if (element.getKind() != ElementKind.CLASS) {
                 message.append(canonicalName).append('#');
