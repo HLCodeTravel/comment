@@ -13,17 +13,26 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
 
+import java.awt.Graphics;
+import java.awt.GraphicsEnvironment;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.processing.Filer;
+import javax.imageio.ImageIO;
 import javax.lang.model.element.ElementKind;
+import javax.swing.JEditorPane;
 import javax.tools.FileObject;
 import javax.tools.StandardLocation;
+
+import gui.ava.html.image.generator.HtmlImageGenerator;
 
 /**
  * 生成HTML文档
@@ -137,11 +146,16 @@ public final class HTMLFileHelper implements FileHelper {
         LSOutput lsOutput = domImplLS.createLSOutput();
         lsOutput.setEncoding("UTF-8");
 
-        File file = new File(path, filename + ".html");
-        OutputStream os = new FileOutputStream(file);
+        File htmlFile = new File(path, filename + ".html");
+        OutputStream os = new FileOutputStream(htmlFile);
         lsOutput.setByteStream(os);
         lsSerializer.write(document, lsOutput);
 
+        HtmlImageGenerator imageGenerator = new HtmlImageGenerator();
+        String uri = htmlFile.toURI().toString();
+        imageGenerator.loadUrl(uri);
+        File imageFile = new File(path, filename + "-html.png");
+        imageGenerator.saveAsImage(imageFile);
     }
 
 
